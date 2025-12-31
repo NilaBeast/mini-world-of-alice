@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import api from "../api/api";
-import bgImage from "../assets/images/banner1.avif";
+import bgImage from "../assets/images/Banner1.avif";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
