@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
-
-import api from "../api/api";
 import bgImage from "../assets/images/Banner1.avif";
 import toast from "react-hot-toast";
-import { FaWhatsapp, FaInstagram, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
+import {
+  FaWhatsapp,
+  FaInstagram,
+  FaEnvelope,
+  FaPhoneAlt,
+} from "react-icons/fa";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -22,23 +24,26 @@ export default function Contact() {
     e.preventDefault();
 
     try {
-    await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/contact`,
-      form,
-      {
+      const res = await fetch("https://formspree.io/f/mgovvzng", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
-      }
-    );
+        body: JSON.stringify(form),
+      });
 
-    toast.success("Message sent successfully ✅");
-    setForm({ name: "", email: "", message: "" });
-  } catch (error) {
-    console.error(error);
-    toast.error("Failed to send message ❌");
-  }
-}
+      if (!res.ok) {
+        throw new Error("Formspree error");
+      }
+
+      toast.success("Message sent successfully ✅");
+      setForm({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("FORMSPREE ERROR:", error);
+      toast.error("Failed to send message ❌");
+    }
+  };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
@@ -54,18 +59,15 @@ export default function Contact() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-5xl bg-glass backdrop-blur-xl rounded-3xl border border-glassBorder shadow-glass p-10 grid md:grid-cols-2 gap-10"
-
+        className="relative z-10 w-full max-w-5xl bg-glass backdrop-blur-xl rounded-3xl
+                   border border-glassBorder shadow-glass p-10 grid md:grid-cols-2 gap-10"
       >
         {/* LEFT: Contact Info */}
         <div className="text-white space-y-6">
-          <h2 className="text-3xl font-bold">
-            Get in Touch 💬
-          </h2>
+          <h2 className="text-3xl font-bold">Get in Touch 💬</h2>
 
           <p className="text-gray-300">
-            Have something broken or precious?  
-            Let’s restore it together.
+            Have something broken or precious? Let’s restore it together.
           </p>
 
           <div className="space-y-4 text-lg">
@@ -90,7 +92,7 @@ export default function Contact() {
             </a>
 
             <a
-              href="https://www.instagram.com/miniworld.of.alice?igsh=MWsweWtpNXRldDhwMA=="
+              href="https://www.instagram.com/miniworld.of.alice"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 text-pink-400 hover:underline"
@@ -140,7 +142,8 @@ export default function Contact() {
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
+            className="w-full bg-green-600 hover:bg-green-700
+                       text-white py-3 rounded-lg font-semibold transition"
           >
             Send Message
           </motion.button>
