@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaInstagram, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp, FaEnvelope, FaYoutube } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -28,6 +28,13 @@ export default function Footer() {
             rel="noreferrer"
           >
             <FaInstagram />
+          </a>
+          <a
+            href="https://www.youtube.com/@miniworl.of_Alice/featured"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaYoutube />
           </a>
         </div>
       </div>
