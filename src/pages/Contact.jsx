@@ -20,13 +20,23 @@ export default function Contact() {
     e.preventDefault();
 
     try {
-      await api.post("/api/contact", form);
-      toast.success("Message sent successfully ✅");
-      setForm({ name: "", email: "", message: "" });
-    } catch (error) {
-      toast.error("Failed to send message ❌");
-    }
-  };
+    await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/contact`,
+      form,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    toast.success("Message sent successfully ✅");
+    setForm({ name: "", email: "", message: "" });
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to send message ❌");
+  }
+}
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
