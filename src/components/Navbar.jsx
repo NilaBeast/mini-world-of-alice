@@ -50,11 +50,11 @@ export default function Navbar() {
         <NavLink to="/home" className="flex items-center gap-3">
           <img
             src={logo}
-            alt="Mini World of Alice"
+            alt="Miniworld of ALICE"
             className="w-10 h-10 rounded-full object-cover border border-white/30"
           />
           <h1 className="text-lg md:text-xl font-bold text-white">
-            Mini World of Alice
+            Miniworld of ALICE
           </h1>
         </NavLink>
 

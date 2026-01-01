@@ -23,7 +23,7 @@ export default function About() {
         <div className="flex justify-center mb-8">
           <img
             src={bgImage1}
-            alt="Mini World of Alice"
+            alt="Miniworld of Alice"
             className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36
              rounded-full object-cover border-4 border-primary shadow-glass"
           />
@@ -36,7 +36,7 @@ export default function About() {
 
         <p className="text-sm sm:text-base md:text-lg text-gray-300 leading-relaxed text-center max-w-2xl mx-auto">
           <span className="text-white font-semibold">
-            Mini World of Alice
+            Miniworld of ALICE
           </span>{" "}
           is a handcrafted restoration studio where broken memories find
           a second life. We believe that every object carries a story,

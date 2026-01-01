@@ -8,7 +8,7 @@ export default function Footer() {
         
 
         <div className="text-center text-sm">
-          © {new Date().getFullYear()} Mini World of Alice
+          © {new Date().getFullYear()} Miniworld of ALICE
         </div>
 
         <div className="flex justify-center gap-5 text-xl">
