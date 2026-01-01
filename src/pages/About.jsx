@@ -31,7 +31,7 @@ export default function About() {
 
         {/* Content */}
         <h2  className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
-          About Mini World of Alice
+          About Miniworld of ALICE
         </h2>
 
         <p className="text-sm sm:text-base md:text-lg text-gray-300 leading-relaxed text-center max-w-2xl mx-auto">
