@@ -7,6 +7,7 @@ import {
   FaInstagram,
   FaEnvelope,
   FaPhoneAlt,
+  FaYoutube,
 } from "react-icons/fa";
 
 export default function Contact() {
@@ -99,6 +100,15 @@ export default function Contact() {
             >
               <FaInstagram />
               Follow on Instagram
+            </a>
+            <a
+              href="https://www.youtube.com/@miniworl.of_Alice/featured"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-red-400 hover:underline"
+            >
+              <FaYoutube />
+              Follow my Youtube Channel
             </a>
           </div>
         </div>
