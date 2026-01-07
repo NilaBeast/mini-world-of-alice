@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import bgImage from "../assets/images/Banner1.avif";
 import toast from "react-hot-toast";
 import {
@@ -11,11 +12,27 @@ import {
 } from "react-icons/fa";
 
 export default function Contact() {
+  const location = useLocation();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
+    product: "",
     message: "",
   });
+
+  // 🔥 AUTO-FILL PRODUCT FROM NAVIGATION STATE
+  useEffect(() => {
+    if (location.state?.productName) {
+      const productName = location.state.productName;
+
+      setForm((prev) => ({
+        ...prev,
+        product: productName,
+        message: `Hi, I am interested in "${productName}". Please share more details.`,
+      }));
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,7 +56,7 @@ export default function Contact() {
       }
 
       toast.success("Message sent successfully ✅");
-      setForm({ name: "", email: "", message: "" });
+      setForm({ name: "", email: "", product: "", message: "" });
     } catch (error) {
       console.error("FORMSPREE ERROR:", error);
       toast.error("Failed to send message ❌");
@@ -101,6 +118,7 @@ export default function Contact() {
               <FaInstagram />
               Follow on Instagram
             </a>
+
             <a
               href="https://www.youtube.com/@miniworl.of_Alice/featured"
               target="_blank"
@@ -137,6 +155,15 @@ export default function Contact() {
             value={form.email}
             onChange={handleChange}
             required
+          />
+
+          {/* 🔥 PRODUCT FIELD */}
+          <input
+            name="product"
+            placeholder="Product Name"
+            className="w-full p-3 rounded-lg bg-white/80 focus:outline-none"
+            value={form.product}
+            onChange={handleChange}
           />
 
           <textarea

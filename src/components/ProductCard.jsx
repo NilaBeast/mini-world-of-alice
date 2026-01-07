@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useSwipeable } from "react-swipeable";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }) {
   const images = product.images?.length
@@ -9,6 +10,7 @@ export default function ProductCard({ product }) {
 
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
 
   const handlers = useSwipeable({
     onSwipedLeft: () =>
@@ -34,37 +36,35 @@ export default function ProductCard({ product }) {
                    rounded-xl mb-4 overflow-hidden bg-white/10"
       >
         <motion.img
-          src={
-            hovered && images[1]
-              ? images[1]
-              : images[index]
-          }
+          src={hovered && images[1] ? images[1] : images[index]}
           alt={product.title}
           className="w-full h-full object-contain"
           initial={{ opacity: 0.7, scale: 1.03 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35 }}
         />
-
-        {/* DOTS */}
-        {images.length > 1 && (
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-            {images.map((_, i) => (
-              <span
-                key={i}
-                className={`h-2 w-2 rounded-full ${
-                  index === i ? "bg-white" : "bg-white/40"
-                }`}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
+      {/* TEXT */}
       <h3 className="text-lg font-semibold">{product.title}</h3>
       <p className="text-gray-300 text-sm mt-1 line-clamp-3">
         {product.description}
       </p>
+
+      {/* BUY BUTTON */}
+      <motion.button
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        onClick={() =>
+          navigate("/contact", {
+            state: { productName: product.title },
+          })
+        }
+        className="mt-4 bg-green-600 hover:bg-green-700 
+                   text-white py-2 rounded-lg font-semibold"
+      >
+        Enquire Now
+      </motion.button>
     </motion.div>
   );
 }
