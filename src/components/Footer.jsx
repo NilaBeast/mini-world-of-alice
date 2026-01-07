@@ -23,7 +23,7 @@ export default function Footer() {
             <FaWhatsapp />
           </a>
           <a
-            href="https://instagram.com/your_instagram"
+            href="https://www.instagram.com/miniworld.of.alice"
             target="_blank"
             rel="noreferrer"
           >
