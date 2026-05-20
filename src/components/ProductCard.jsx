@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useSwipeable } from "react-swipeable";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }) {
@@ -21,27 +21,36 @@ export default function ProductCard({ product }) {
 
   const images = rawImages
     .map((x) => (typeof x === "string" ? x.trim() : ""))
-    .filter((x) => x.length > 0);
+    .filter((x) => x.length > 0)
+    .map((x) => (x.startsWith("http://") ? `https://${x.slice(7)}` : x));
 
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
-  const [failed, setFailed] = useState(() => new Set());
+  const [failed, setFailed] = useState([]);
   const navigate = useNavigate();
 
-  const displayIndex =
-    hovered && images[1] && !failed.has(1) ? 1 : Math.min(index, Math.max(images.length - 1, 0));
-  const displaySrc = images[displayIndex];
+  const failedSet = new Set(failed);
+  const available = images.map((src, i) => ({ src, i })).filter((x) => !failedSet.has(x.i));
+  const hasAny = images.length > 0;
+  const hasAvailable = available.length > 0;
 
-  const markFailedAndAdvance = (i) => {
-    setFailed((prev) => new Set([...prev, i]));
-    setIndex((prev) => {
-      for (let step = 1; step <= images.length; step += 1) {
-        const next = Math.min(prev + step, images.length - 1);
-        if (!failed.has(next) && next !== i) return next;
-      }
-      return prev;
-    });
+  const pickPreferred = () => {
+    if (!hasAvailable) return null;
+    const second = available.find((x) => x.i === 1);
+    if (hovered && second) return second;
+    const safeIndex = Math.min(index, available.length - 1);
+    return available[safeIndex] || available[0];
   };
+
+  const picked = pickPreferred();
+  const displaySrc = picked?.src;
+  const displayIndex = picked?.i ?? 0;
+  const displayKey = useMemo(() => `${product?._id ?? product?.id ?? ""}:${displayIndex}`, [product, displayIndex]);
+
+  const [loadedKey, setLoadedKey] = useState(null);
+  useEffect(() => {
+    setLoadedKey(null);
+  }, [displayKey]);
 
   const handlers = useSwipeable({
     onSwipedLeft: () =>
@@ -64,22 +73,32 @@ export default function ProductCard({ product }) {
         className="relative h-44 sm:h-48 lg:h-52 w-full rounded-2xl mb-4 overflow-hidden bg-white/5 border border-white/10"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/10" />
-        {images.length > 0 ? (
-          <motion.img
-            src={displaySrc}
-            alt={product.title}
-            className="relative w-full h-full object-cover"
-            initial={{ opacity: 0.75, scale: 1.03 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.38, ease: "easeOut" }}
-            loading="lazy"
-            decoding="async"
-            referrerPolicy="no-referrer"
-            onError={() => markFailedAndAdvance(displayIndex)}
-          />
+        {hasAny && hasAvailable ? (
+          <>
+            {loadedKey !== displayKey && (
+              <div className="absolute inset-0 animate-pulse bg-white/5" />
+            )}
+            <motion.img
+              key={displayKey}
+              src={displaySrc}
+              alt={product.title}
+              className="relative w-full h-full object-cover"
+              initial={{ opacity: 0.75, scale: 1.03 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.38, ease: "easeOut" }}
+              loading="lazy"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              onLoad={() => setLoadedKey(displayKey)}
+              onError={() => {
+                setFailed((prev) => (prev.includes(displayIndex) ? prev : [...prev, displayIndex]));
+                setIndex((prev) => Math.max(0, prev - 1));
+              }}
+            />
+          </>
         ) : (
           <div className="relative h-full w-full grid place-items-center text-white/55 text-sm">
-            No image
+            Image unavailable
           </div>
         )}
 
