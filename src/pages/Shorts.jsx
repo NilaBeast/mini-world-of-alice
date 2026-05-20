@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import api from "../api/api";
-import bgImage from "../assets/images/Banner1.avif";
 
 export default function Shorts() {
   const [shorts, setShorts] = useState([]);
@@ -11,31 +10,50 @@ export default function Shorts() {
   }, []);
 
   return (
-    <div className="relative min-h-screen flex flex-col overflow-hidden">
-      {/* background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bgImage})` }}
-      />
-      <div className="absolute inset-0 bg-black/40 backdrop-saturate-150" />
-
-      {/* CONTENT */}
-      <main className="relative z-10 flex-1 p-4 sm:p-6 lg:p-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {shorts.map((s) => (
-            <div
-              key={s._id}
-              className="rounded-xl overflow-hidden border border-white/20 shadow-xl"
-            >
-              <iframe
-                className="w-full h-[260px] sm:h-[320px] md:h-[400px]"
-                src={`https://www.youtube.com/embed/${s.youtubeId}?mute=1`}
-                allow="autoplay"
-              />
-            </div>
-          ))}
+    <div className="max-w-7xl mx-auto">
+      <div className="flex items-end justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white">Shorts</h2>
+          <p className="text-white/70 mt-1">
+            Quick process videos and craft moments.
+          </p>
         </div>
-      </main>
+        <div className="art-badge">
+          <span className="h-2 w-2 rounded-full bg-sky-300" />
+          {shorts.length} videos
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mt-6">
+        {shorts.map((s) => (
+          <motion.div
+            key={s.id}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            whileHover={{ y: -6 }}
+            className="art-surface overflow-hidden"
+          >
+            <div className="px-5 pt-5">
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-sm font-semibold text-white/90 truncate">
+                  {s.title || "Craft short"}
+                </div>
+                <div className="text-xs text-white/60">YouTube</div>
+              </div>
+            </div>
+            <div className="p-5 pt-4">
+              <div className="rounded-xl overflow-hidden border border-white/10">
+                <iframe
+                  className="w-full h-[260px] sm:h-[320px] md:h-[400px]"
+                  src={`https://www.youtube.com/embed/${s.youtubeId}?mute=1`}
+                  allow="autoplay"
+                />
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 }

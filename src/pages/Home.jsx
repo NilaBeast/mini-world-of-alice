@@ -1,36 +1,62 @@
 import { motion } from "framer-motion";
-import bgImage from "../assets/images/Banner1.avif";
 import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bgImage})` }}
-      />
-      <div className="absolute inset-0 bg-black/60" />
+    <div className="max-w-6xl mx-auto">
+      <motion.section
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="art-card p-7 sm:p-10 md:p-12 overflow-hidden"
+      >
+        <div className="flex flex-col items-center text-center gap-6">
+          <div className="art-badge">
+            <span className="h-2 w-2 rounded-full bg-amber-300" />
+            Arts • Crafts • Restoration
+          </div>
 
-      {/* Content */}
-      <motion.div className="relative z-10 w-full max-w-xl sm:max-w-2xl bg-glass backdrop-blur-xl
-             rounded-2xl sm:rounded-3xl p-6 sm:p-10
-             text-center border border-glassBorder shadow-glass">
-  <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">
-    Restore, Not Reject
-  </h1>
-  <p className="text-gray-300 text-base sm:text-lg leading-relaxed">
-    Giving broken things a second life through love, patience, and craftsmanship.
-  </p>
-   <Link
-              to="/products"
-              className="inline-block bg-purple-600 hover:bg-purple-900 text-white px-8 py-3 rounded-full text-lg font-medium transition"
-            >
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
+            Restore, Not Reject
+          </h1>
+
+          <p className="text-white/80 text-base sm:text-lg leading-relaxed max-w-2xl">
+            Giving broken things a second life through patience, storytelling, and
+            craftsmanship.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link to="/products" className="art-btn-primary">
               Explore Products
             </Link>
-</motion.div>
+            <Link to="/shorts" className="art-btn-dark">
+              Watch Shorts
+            </Link>
+          </div>
+        </div>
+      </motion.section>
 
-
+      <motion.section
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut", delay: 0.08 }}
+        className="grid md:grid-cols-3 gap-4 mt-6"
+      >
+        {[
+          { t: "Repair with care", d: "Fine details, clean joins, durable finishes." },
+          { t: "Art-first approach", d: "Color, texture, and charm that feels handmade." },
+          { t: "Made for stories", d: "Preserve memories instead of replacing them." },
+        ].map((card) => (
+          <motion.div
+            key={card.t}
+            whileHover={{ y: -6, rotate: -0.2 }}
+            className="art-surface p-6"
+          >
+            <h3 className="text-lg font-semibold text-white">{card.t}</h3>
+            <p className="text-sm text-white/70 mt-2">{card.d}</p>
+          </motion.div>
+        ))}
+      </motion.section>
     </div>
   );
 }

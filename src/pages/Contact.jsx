@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import bgImage from "../assets/images/Banner1.avif";
 import toast from "react-hot-toast";
 import {
   FaWhatsapp,
@@ -64,25 +63,16 @@ export default function Contact() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bgImage})` }}
-      />
-      <div className="absolute inset-0 bg-black/70" />
-
-      {/* Card */}
+    <div className="max-w-5xl mx-auto">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-5xl bg-glass backdrop-blur-xl rounded-3xl
-                   border border-glassBorder shadow-glass p-10 grid md:grid-cols-2 gap-10"
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="art-card p-6 sm:p-10 grid md:grid-cols-2 gap-8"
       >
         {/* LEFT: Contact Info */}
         <div className="text-white space-y-6">
-          <h2 className="text-3xl font-bold">Get in Touch 💬</h2>
+          <h2 className="text-3xl font-bold">Get in Touch</h2>
 
           <p className="text-gray-300">
             Have something broken or precious? Let’s restore it together.
@@ -90,12 +80,12 @@ export default function Contact() {
 
           <div className="space-y-4 text-lg">
             <p className="flex items-center gap-3">
-              <FaPhoneAlt className="text-green-400" />
+              <FaPhoneAlt className="text-emerald-300" />
               +91 8910385772
             </p>
 
             <p className="flex items-center gap-3">
-              <FaEnvelope className="text-red-400" />
+              <FaEnvelope className="text-rose-300" />
               prattyusha1115@gmail.com
             </p>
 
@@ -103,7 +93,7 @@ export default function Contact() {
               href="https://wa.me/918910385772"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 text-green-400 hover:underline"
+              className="flex items-center gap-3 text-emerald-300 hover:text-emerald-200 transition"
             >
               <FaWhatsapp />
               Chat on WhatsApp
@@ -113,7 +103,7 @@ export default function Contact() {
               href="https://www.instagram.com/miniworld.of.alice"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 text-pink-400 hover:underline"
+              className="flex items-center gap-3 text-rose-300 hover:text-rose-200 transition"
             >
               <FaInstagram />
               Follow on Instagram
@@ -123,7 +113,7 @@ export default function Contact() {
               href="https://www.youtube.com/@miniworl.of_Alice/featured"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 text-red-400 hover:underline"
+              className="flex items-center gap-3 text-amber-300 hover:text-amber-200 transition"
             >
               <FaYoutube />
               Follow my Youtube Channel
@@ -141,7 +131,7 @@ export default function Contact() {
           <input
             name="name"
             placeholder="Your Name"
-            className="w-full p-3 rounded-lg bg-white/80 focus:outline-none"
+            className="art-input"
             value={form.name}
             onChange={handleChange}
             required
@@ -151,7 +141,7 @@ export default function Contact() {
             name="email"
             type="email"
             placeholder="Your Email"
-            className="w-full p-3 rounded-lg bg-white/80 focus:outline-none"
+            className="art-input"
             value={form.email}
             onChange={handleChange}
             required
@@ -161,7 +151,7 @@ export default function Contact() {
           <input
             name="product"
             placeholder="Product Name"
-            className="w-full p-3 rounded-lg bg-white/80 focus:outline-none"
+            className="art-input"
             value={form.product}
             onChange={handleChange}
           />
@@ -170,7 +160,7 @@ export default function Contact() {
             name="message"
             placeholder="Your Message"
             rows="4"
-            className="w-full p-3 rounded-lg bg-white/80 focus:outline-none"
+            className="art-textarea"
             value={form.message}
             onChange={handleChange}
             required
@@ -179,8 +169,7 @@ export default function Contact() {
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="w-full bg-green-600 hover:bg-green-700
-                       text-white py-3 rounded-lg font-semibold transition"
+            className="w-full art-btn-primary"
           >
             Send Message
           </motion.button>

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import {
@@ -25,10 +25,7 @@ const navLinks = [
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const [open, setOpen] = useState(false);
-
-  if (["/login", "/register"].includes(location.pathname)) return null;
 
   const handleLogout = () => {
     logout();
@@ -42,9 +39,8 @@ export default function Navbar() {
       <motion.nav
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-50 bg-black/70 backdrop-blur-xl
-                   px-6 md:px-10 py-4 flex justify-between items-center
-                   border-b border-white/20"
+        className="sticky top-0 z-50 px-6 md:px-10 py-4 flex justify-between items-center
+                   bg-black/55 backdrop-blur-2xl border-b border-white/10"
       >
         {/* LOGO */}
         <NavLink to="/home" className="flex items-center gap-3">
@@ -67,14 +63,14 @@ export default function Navbar() {
                   whileHover={{ scale: 1.08 }}
                   className={`flex items-center gap-2 transition-all duration-300 ${
                     isActive
-                      ? "text-primary"
-                      : "text-white group-hover:text-primary/80"
+                      ? "text-amber-200"
+                      : "text-white/90 group-hover:text-amber-200"
                   }`}
                 >
                   <Icon
                     className={`text-lg transition-all duration-300 ${
                       isActive
-                        ? "drop-shadow-[0_0_6px_theme(colors.primary)]"
+                        ? "drop-shadow-[0_0_10px_rgba(251,191,36,0.35)]"
                         : "opacity-70 group-hover:opacity-100"
                     }`}
                   />
@@ -85,7 +81,7 @@ export default function Navbar() {
                     <motion.span
                       layoutId="navUnderline"
                       className="absolute -bottom-2 left-0 right-0 h-[3px]
-                                 rounded-full bg-primary"
+                                 rounded-full bg-gradient-to-r from-amber-200 via-rose-200 to-sky-200"
                       transition={{
                         type: "spring",
                         stiffness: 500,
@@ -106,14 +102,14 @@ export default function Navbar() {
                   whileHover={{ scale: 1.08 }}
                   className={`flex items-center gap-2 transition-all duration-300 ${
                     isActive
-                      ? "text-primary"
-                      : "text-white group-hover:text-primary/80"
+                      ? "text-amber-200"
+                      : "text-white/90 group-hover:text-amber-200"
                   }`}
                 >
                   <FiTool
                     className={`text-lg transition-all duration-300 ${
                       isActive
-                        ? "drop-shadow-[0_0_6px_theme(colors.primary)]"
+                        ? "drop-shadow-[0_0_10px_rgba(251,191,36,0.35)]"
                         : "opacity-70 group-hover:opacity-100"
                     }`}
                   />
@@ -123,7 +119,7 @@ export default function Navbar() {
                     <motion.span
                       layoutId="navUnderline"
                       className="absolute -bottom-2 left-0 right-0 h-[3px]
-                                 rounded-full bg-primary"
+                                 rounded-full bg-gradient-to-r from-amber-200 via-rose-200 to-sky-200"
                     />
                   )}
                 </motion.span>
@@ -192,8 +188,8 @@ export default function Navbar() {
                     className={({ isActive }) =>
                       `flex items-center gap-3 transition-all duration-300 ${
                         isActive
-                          ? "text-primary font-semibold"
-                          : "hover:text-primary/80"
+                          ? "text-amber-200 font-semibold"
+                          : "text-white/90 hover:text-amber-200"
                       }`
                     }
                   >
@@ -209,8 +205,8 @@ export default function Navbar() {
                     className={({ isActive }) =>
                       `flex items-center gap-3 transition-all duration-300 ${
                         isActive
-                          ? "text-primary font-semibold"
-                          : "hover:text-primary/80"
+                          ? "text-amber-200 font-semibold"
+                          : "text-white/90 hover:text-amber-200"
                       }`
                     }
                   >

@@ -2,14 +2,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import bgImage from "../assets/images/Banner1.avif";
 
 export default function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
   });
@@ -21,7 +20,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const success = await register(
-      formData.username,
+      formData.name,
       formData.email,
       formData.password
     );
@@ -29,35 +28,29 @@ export default function Register() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bgImage})` }}
-      />
-      <div className="absolute inset-0 bg-black/70" />
+    <motion.form
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      onSubmit={handleSubmit}
+      className="w-full max-w-md art-card p-6 sm:p-8"
+    >
+      <div className="text-center">
+        <div className="art-badge mx-auto w-fit">
+          <span className="h-2 w-2 rounded-full bg-rose-300" />
+          Create account
+        </div>
+        <h2 className="text-3xl font-bold mt-4">Join Miniworld of ALICE</h2>
+        <p className="text-white/70 mt-2">A crafted space for restorations</p>
+      </div>
 
-      {/* Card */}
-      <motion.form
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        onSubmit={handleSubmit}
-        className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-white/20"
-      >
-        <h2 className="text-3xl font-bold text-white text-center mb-2">
-          Create Account ✨
-        </h2>
-        <p className="text-gray-300 text-center mb-6">
-          Join Mini World of Alice
-        </p>
-
+      <div className="mt-7 space-y-4">
         <input
           type="text"
-          name="username"
-          placeholder="Username"
-          className="w-full p-3 mb-4 rounded-lg bg-white/80"
-          value={formData.username}
+          name="name"
+          placeholder="Your name"
+          className="art-input"
+          value={formData.name}
           onChange={handleChange}
           required
         />
@@ -66,7 +59,7 @@ export default function Register() {
           type="email"
           name="email"
           placeholder="Email"
-          className="w-full p-3 mb-4 rounded-lg bg-white/80"
+          className="art-input"
           value={formData.email}
           onChange={handleChange}
           required
@@ -76,27 +69,27 @@ export default function Register() {
           type="password"
           name="password"
           placeholder="Password"
-          className="w-full p-3 mb-6 rounded-lg bg-white/80"
+          className="art-input"
           value={formData.password}
           onChange={handleChange}
           required
         />
 
         <motion.button
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full art-btn-primary"
         >
           Create Account
         </motion.button>
+      </div>
 
-        <p className="mt-6 text-sm text-center text-gray-300">
-          Already have an account?{" "}
-          <Link to="/login" className="text-green-400 hover:underline">
-            Login
-          </Link>
-        </p>
-      </motion.form>
-    </div>
+      <p className="mt-6 text-sm text-center text-white/70">
+        Already have an account?{" "}
+        <Link to="/login" className="text-amber-200 hover:text-amber-100 transition">
+          Login
+        </Link>
+      </p>
+    </motion.form>
   );
 }

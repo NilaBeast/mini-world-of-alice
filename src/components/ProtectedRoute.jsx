@@ -7,7 +7,6 @@ export default function ProtectedRoute({ children, admin }) {
   if (loading) return null;
 
   if (!user) {
-    console.log("❌ No user, redirecting to login");
     return <Navigate to="/login" replace />;
   }
 
@@ -15,7 +14,6 @@ export default function ProtectedRoute({ children, admin }) {
     admin &&
     !(user.role === "admin" || user.isAdmin === true)
   ) {
-    console.log("❌ Not admin:", user);
     return <Navigate to="/" replace />;
   }
 

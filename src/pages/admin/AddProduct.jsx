@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import api from "../../api/api";
-import bgImage from "../../assets/images/Banner1.avif";
 import toast from "react-hot-toast";
 
 export default function AddProduct() {
@@ -60,80 +59,93 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bgImage})` }}
-      />
-      <div className="absolute inset-0 bg-black/70" />
-
-      {/* Card */}
+    <div className="max-w-3xl mx-auto">
       <motion.form
         onSubmit={handleSubmit}
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full max-w-lg bg-white/10 backdrop-blur-xl 
-                   p-8 rounded-2xl border border-white/20 text-white"
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="w-full art-card p-6 sm:p-10 text-white"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">
-          Add Product
-        </h2>
-
-        {/* TITLE */}
-        <input
-          placeholder="Title"
-          className="w-full p-3 mb-4 rounded-lg bg-white/80 text-black"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-
-        {/* DESCRIPTION */}
-        <textarea
-          placeholder="Description"
-          rows="3"
-          className="w-full p-3 mb-4 rounded-lg bg-white/80 text-black"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-
-        {/* MULTI IMAGE INPUT */}
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          className="w-full mb-4"
-          onChange={handleImageChange}
-        />
-
-        {/* IMAGE PREVIEW GRID */}
-        {preview.length > 0 && (
-          <div className="grid grid-cols-3 gap-2 mb-4">
-            {preview.map((src, i) => (
-              <img
-                key={i}
-                src={src}
-                alt={`Preview ${i}`}
-                className="h-24 w-full object-cover rounded-lg"
-              />
-            ))}
+        <div className="flex items-end justify-between gap-4 flex-wrap">
+          <div>
+            <div className="art-badge w-fit">
+              <span className="h-2 w-2 rounded-full bg-amber-300" />
+              Admin
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold mt-4">Add Product</h2>
+            <p className="text-white/70 mt-2">
+              Upload images and write a crafted description.
+            </p>
           </div>
-        )}
+        </div>
 
-        {/* SUBMIT */}
-        <motion.button
-          whileHover={{ scale: 1.03 }}
-          disabled={loading}
-          className={`w-full py-3 rounded-lg font-semibold transition ${
-            loading
-              ? "bg-gray-500 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
-          }`}
-        >
-          {loading ? "Saving..." : "Add Product"}
-        </motion.button>
+        <div className="mt-8 grid gap-4">
+          <input
+            placeholder="Title"
+            className="art-input"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+
+          <textarea
+            placeholder="Description"
+            rows="4"
+            className="art-textarea"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+
+          <div className="art-surface p-4">
+            <div className="text-sm font-semibold text-white/90">
+              Product images
+            </div>
+            <div className="text-xs text-white/60 mt-1">
+              Add up to 5 images. The first image is used as the cover.
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              className="mt-3 w-full text-white/80"
+              onChange={handleImageChange}
+            />
+          </div>
+
+          {preview.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {preview.map((src, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="rounded-2xl overflow-hidden border border-white/10 bg-white/5"
+                >
+                  <img
+                    src={src}
+                    alt={`Preview ${i}`}
+                    className="h-28 w-full object-cover"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            disabled={loading}
+            className={`w-full ${
+              loading ? "art-btn-dark opacity-70 cursor-not-allowed" : "art-btn-primary"
+            }`}
+          >
+            {loading ? "Saving…" : "Add Product"}
+          </motion.button>
+        </div>
       </motion.form>
     </div>
   );
