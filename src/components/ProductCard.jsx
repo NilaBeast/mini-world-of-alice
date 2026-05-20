@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }) {
-  const images = Array.isArray(product?.images)
+  const rawImages = Array.isArray(product?.images)
     ? product.images
     : typeof product?.images === "string"
       ? (() => {
@@ -19,9 +19,29 @@ export default function ProductCard({ product }) {
         ? [product.image]
         : [];
 
+  const images = rawImages
+    .map((x) => (typeof x === "string" ? x.trim() : ""))
+    .filter((x) => x.length > 0);
+
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
+  const [failed, setFailed] = useState(() => new Set());
   const navigate = useNavigate();
+
+  const displayIndex =
+    hovered && images[1] && !failed.has(1) ? 1 : Math.min(index, Math.max(images.length - 1, 0));
+  const displaySrc = images[displayIndex];
+
+  const markFailedAndAdvance = (i) => {
+    setFailed((prev) => new Set([...prev, i]));
+    setIndex((prev) => {
+      for (let step = 1; step <= images.length; step += 1) {
+        const next = Math.min(prev + step, images.length - 1);
+        if (!failed.has(next) && next !== i) return next;
+      }
+      return prev;
+    });
+  };
 
   const handlers = useSwipeable({
     onSwipedLeft: () =>
@@ -46,12 +66,16 @@ export default function ProductCard({ product }) {
         <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/10" />
         {images.length > 0 ? (
           <motion.img
-            src={hovered && images[1] ? images[1] : images[index]}
+            src={displaySrc}
             alt={product.title}
-            className="relative w-full h-full object-contain"
+            className="relative w-full h-full object-cover"
             initial={{ opacity: 0.75, scale: 1.03 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.38, ease: "easeOut" }}
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            onError={() => markFailedAndAdvance(displayIndex)}
           />
         ) : (
           <div className="relative h-full w-full grid place-items-center text-white/55 text-sm">
