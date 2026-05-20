@@ -64,7 +64,7 @@ export default function Products() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-6">
           {products.map((p, idx) => (
             <motion.div
-              key={p.id ?? idx}
+              key={p._id ?? p.id ?? idx}
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, ease: "easeOut", delay: Math.min(idx * 0.03, 0.3) }}

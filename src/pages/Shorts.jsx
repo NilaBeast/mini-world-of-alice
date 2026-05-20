@@ -25,9 +25,9 @@ export default function Shorts() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mt-6">
-        {shorts.map((s) => (
+        {shorts.map((s, idx) => (
           <motion.div
-            key={s.id}
+            key={s._id ?? s.id ?? idx}
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, ease: "easeOut" }}

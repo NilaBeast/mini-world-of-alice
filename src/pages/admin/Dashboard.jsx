@@ -53,7 +53,7 @@ export default function Dashboard() {
     if (!ok) return;
     try {
       await api.delete(`/api/products/${id}`);
-      setProducts((prev) => prev.filter((p) => p.id !== id));
+      setProducts((prev) => prev.filter((p) => (p._id ?? p.id) !== id));
       toast.success("Product deleted");
     } catch {
       toast.error("Failed to delete product");
@@ -65,7 +65,7 @@ export default function Dashboard() {
     if (!ok) return;
     try {
       await api.delete(`/api/shorts/${id}`);
-      setShorts((prev) => prev.filter((s) => s.id !== id));
+      setShorts((prev) => prev.filter((s) => (s._id ?? s.id) !== id));
       toast.success("Short deleted");
     } catch {
       toast.error("Failed to delete short");
@@ -96,7 +96,9 @@ export default function Dashboard() {
         updated = res.data;
       }
 
-      setProducts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+      setProducts((prev) =>
+        prev.map((p) => ((p._id ?? p.id) === (updated._id ?? updated.id) ? updated : p))
+      );
       toast.success("Product updated");
       setEditProduct(null);
     } catch {
@@ -116,7 +118,9 @@ export default function Dashboard() {
         youtubeId: editShort.youtubeId,
       });
       const updated = res.data;
-      setShorts((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
+      setShorts((prev) =>
+        prev.map((s) => ((s._id ?? s.id) === (updated._id ?? updated.id) ? updated : s))
+      );
       toast.success("Short updated");
       setEditShort(null);
     } catch {
@@ -225,8 +229,8 @@ export default function Dashboard() {
                       </tr>
                     </thead>
                     <tbody className="text-sm">
-                      {products.map((p) => (
-                        <tr key={p.id} className="border-t border-white/10">
+                      {products.map((p, idx) => (
+                        <tr key={p._id ?? p.id ?? idx} className="border-t border-white/10">
                           <td className="py-4 pr-4">
                             <div className="flex items-center gap-4 min-w-[320px]">
                               <div className="h-12 w-12 rounded-2xl overflow-hidden bg-white/5 border border-white/10">
@@ -260,7 +264,7 @@ export default function Dashboard() {
                                 className="art-btn-dark px-3 py-2 rounded-lg"
                                 onClick={() =>
                                   setEditProduct({
-                                    id: p.id,
+                                    id: p._id ?? p.id,
                                     title: p.title || "",
                                     description: p.description || "",
                                     images: p.images || [],
@@ -272,7 +276,7 @@ export default function Dashboard() {
                               </button>
                               <button
                                 className="art-btn-danger px-3 py-2 rounded-lg"
-                                onClick={() => deleteProduct(p.id)}
+                                onClick={() => deleteProduct(p._id ?? p.id)}
                               >
                                 Delete
                               </button>
@@ -310,8 +314,8 @@ export default function Dashboard() {
                       </tr>
                     </thead>
                     <tbody className="text-sm">
-                      {shorts.map((s) => (
-                        <tr key={s.id} className="border-t border-white/10">
+                      {shorts.map((s, idx) => (
+                        <tr key={s._id ?? s.id ?? idx} className="border-t border-white/10">
                           <td className="py-4 pr-4">
                             <div className="flex items-center gap-4 min-w-[320px]">
                               <div className="h-12 w-20 rounded-2xl overflow-hidden bg-white/5 border border-white/10">
@@ -345,7 +349,7 @@ export default function Dashboard() {
                                 className="art-btn-dark px-3 py-2 rounded-lg"
                                 onClick={() =>
                                   setEditShort({
-                                    id: s.id,
+                                    id: s._id ?? s.id,
                                     title: s.title || "",
                                     youtubeId: s.youtubeId || "",
                                   })
@@ -355,7 +359,7 @@ export default function Dashboard() {
                               </button>
                               <button
                                 className="art-btn-danger px-3 py-2 rounded-lg"
-                                onClick={() => deleteShort(s.id)}
+                                onClick={() => deleteShort(s._id ?? s.id)}
                               >
                                 Delete
                               </button>
